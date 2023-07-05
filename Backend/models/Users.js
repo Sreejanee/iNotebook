@@ -19,4 +19,6 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     }
   });
-  module.exports=mongoose.model('user',UserSchema);
+  const User=mongoose.model('user',UserSchema);
+  User.createIndexes();//to prevent multiple copies of the unique field to get entered in the database
+  module.exports=User;
