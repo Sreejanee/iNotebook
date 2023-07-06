@@ -3,7 +3,7 @@ const express = require('express')
 connectToMongo();
 
 const app = express()
-const port = 3000
+const port = 5000
 //MIDDLEWARE IS USED TO ACCESS REQ.BODY
 app.use(express.json())
 

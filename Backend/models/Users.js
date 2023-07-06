@@ -20,5 +20,5 @@ const UserSchema = new mongoose.Schema({
     }
   });
   const User=mongoose.model('user',UserSchema);
-  User.createIndexes();//to prevent multiple copies of the unique field to get entered in the database
+  //User.createIndexes();//to prevent multiple copies of the unique field to get entered in the database
   module.exports=User;
