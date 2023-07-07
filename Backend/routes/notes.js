@@ -39,4 +39,25 @@ router.post('/addnote', fetchuser, [
         res.status(500).json({ error: 'Server error' });
     }
 });
+//ROUTE 3:Update a new note using: PUT "/api/notes/updatenote". Log In required        //for updating we use PUT request
+router.put('/updatenote/:id', fetchuser, async (req, res) => {
+    const{title,description,tag}=req.body;
+    //create a note object which will contain all the updated fields
+    const newNote={};
+    //if the user input a title then that means that the user wants to update the title otherwise if(title) will give false
+    if(title){newNote.title=title};
+    if(description){newNote.description=description};
+    if(tag){newNote.tag=tag};
+
+    //Find the node to be updated and update it but before that do some verifications
+    let note=await Notes.findById(req.params.id);//it will have the id which will be passed as parameter in the endpoint .basically the id which the client is trying to  update
+    if(!note){return res.status(404).send("Not Found")}//the id of the note that the client has asked to update doesn't exist
+    if(note.user.toString()!==req.user.id)//if the loggedin person's id does not match with the user id of the note that he is trying to change then do not allow (jo banda logged in h wo kisi or ka note access karne ka try kar rha h)
+    {
+        return res.status(401).send("Not Allowed");
+    }
+    //Find the node to be updated and update it 
+    note=await Notes.findByIdAndUpdate(req.params.id,{$set:newNote},{new:true});//{new:true} is done so that if any new content comes then it will be updated
+    res.json(note);
+});
 module.exports = router;
