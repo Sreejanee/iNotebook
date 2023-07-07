@@ -3,11 +3,13 @@ const User = require("../models/Users");
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fetchuser=require('../middleware/fetchuser');
 
 const JWT_SECRET = "Thisisanoteskeepingwebsitemadewithreact"
 
 const router = express.Router();
-// Create a user using POST "/api/auth/createuser", doesn't require authentication
+
+//ROUTE 1: Create a user using POST "/api/auth/createuser", doesn't require authentication,NO LOGIN REQUIRED
 router.post('/createuser', [
   body('name', 'Enter a valid name').isLength({ min: 3 }),
   body('email', "Enter a valid Email").isEmail(),
@@ -52,7 +54,7 @@ router.post('/createuser', [
 });
 
 
-// Authenticate a user using POST "/api/auth/login", No login required
+//ROUTE 2: Authenticate a user using POST "/api/auth/login", No login required
 router.post('/login', [
   body('email', "Enter a valid Email").isEmail(),//if not valid email then we will not allow the user to go any further
   body('password', "Passwords acnnot be blank").exists()
@@ -91,8 +93,17 @@ router.post('/login', [
     console.error(error.message);
     res.status(500).json({ error: 'Server error' });
   }
+});
+//ROUTE 3:Get loggedin user details POST "/api/auth/getuser". Log In required
+router.post('/getuser',fetchuser,async (req, res) => {
 
-
-
-})
+  try {
+    const userID=req.user.id;
+    const user=await User.findById(userID).select("-password");//select everthing except the password
+    res.send(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 module.exports = router;
