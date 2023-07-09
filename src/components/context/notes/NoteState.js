@@ -37,6 +37,8 @@ const NoteState = (props) => {
             
             body: JSON.stringify({title,description,tag}),
         });
+        const json=await response.json();
+        console.log(json);
 
         const note = {
             "_id": "64a8519019439566551febba0fcf5",
@@ -85,8 +87,21 @@ const NoteState = (props) => {
             body: JSON.stringify({title,description,tag}),
         });
         const json = response.json();
+        console.log(json);
 
         //Logic to edit note
+        // LOGIC-1
+        // let newNotes=JSON.parse(JSON.stringify(notes));
+        // for (let index = 0; index < newNotes.length; index++) {
+        //     const element = newNotes[index];
+        //     if (element._id === id) {
+        //         newNotes[index].title = title;
+        //         newNotes[index].description = description;
+        //         newNotes[index].tag = tag;
+        //         break;
+        //     }
+        // }
+        // LOGIC-2
         for (let index = 0; index < notes.length; index++) {
             const element = notes[index];
             if (element._id === id) {
