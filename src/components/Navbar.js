@@ -1,14 +1,14 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import {Link,useLocation} from "react-router-dom";
 
 const Navbar = () => {
   let location = useLocation();//gives the current location basically the pathname
 
-  React.useEffect(() => {
-    // Google Analytics
-    // ga('send', 'pageview');
-    console.log(location.pathname)
-  }, [location]);
+  // React.useEffect(() => {
+  //   // Google Analytics
+  //   // ga('send', 'pageview');
+  //   console.log(location.pathname)
+  // }, [location]);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
