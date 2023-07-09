@@ -4,6 +4,10 @@ connectToMongo();
 
 const app = express()
 const port = 5000
+//installed cors in the backend and is used to fetch
+var cors = require('cors')
+app.use(cors())
+
 //MIDDLEWARE IS USED TO ACCESS REQ.BODY
 app.use(express.json())
 
