@@ -37,19 +37,11 @@ const NoteState = (props) => {
             
             body: JSON.stringify({title,description,tag}),
         });
-        const json=await response.json();
-        console.log(json);
-
-        const note = {
-            "_id": "64a8519019439566551febba0fcf5",
-            "user": "64a77ec6d37109974f7b90bc",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "date": "2023-07-07T17:55:28.745Z",
-            "__v": 0
-        }
+        const note=await response.json();
         setNotes(notes.concat(note)) //concating a new object in the notes array
+        
+
+        
     }
     //Delete a Node
     const deleteNote = async(id) => {
@@ -91,25 +83,26 @@ const NoteState = (props) => {
 
         //Logic to edit note
         // LOGIC-1
-        // let newNotes=JSON.parse(JSON.stringify(notes));
-        // for (let index = 0; index < newNotes.length; index++) {
-        //     const element = newNotes[index];
-        //     if (element._id === id) {
-        //         newNotes[index].title = title;
-        //         newNotes[index].description = description;
-        //         newNotes[index].tag = tag;
-        //         break;
-        //     }
-        // }
-        // LOGIC-2
-        for (let index = 0; index < notes.length; index++) {
-            const element = notes[index];
+        let newNotes=JSON.parse(JSON.stringify(notes));
+        console.log(newNotes);
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
             if (element._id === id) {
-                element.title = title;
-                element.description = description;
-                element.tag = tag;
+                newNotes[index].title = title;
+                newNotes[index].description = description;
+                newNotes[index].tag = tag;
+                break;
             }
         }
+        // LOGIC-2
+        // for (let index = 0; index < notes.length; index++) {
+        //     const element = notes[index];
+        //     if (element._id === id) {
+        //         element.title = title;
+        //         element.description = description;
+        //         element.tag = tag;
+        //     }
+        // }
     }
     return (
         
