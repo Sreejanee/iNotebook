@@ -15,10 +15,11 @@ router.post('/createuser', [
   body('email', "Enter a valid Email").isEmail(),
   body('password', 'Password must have a minimum of 5 characters').isLength({ min: 5 }),
 ], async (req, res) => {
+  let success=false;
   //if there are errors return bad request and errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
   }
 
   try {
@@ -41,15 +42,16 @@ router.post('/createuser', [
     //authToken which is given to each user after authentication can be recovered back in the above data to track the user
     const authToken = jwt.sign(data, JWT_SECRET);
     //JWT_SECRET can be used to find out whether the data has been tempered or not
-    res.json({ authToken });
+    success=true
+    res.json({success, authToken });
   } catch (error) {
     if (error.code === 11000)//MongoDB Duplicate key error
     {
 
-      return res.status(400).json({ error: 'Email already exists' });
+      return res.status(400).json({success, error: 'Email already exists' });
     }
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({success, error: 'Server error' });
   }
 });
 
