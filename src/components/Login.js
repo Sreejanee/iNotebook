@@ -22,9 +22,14 @@ const Login = (props) => {
           console.log(json);
           if(json.success){
             // Save the auth token and redirect
-            localStorage.setItem('token',json.authtoken);//Storing the auth token to local storage
+            localStorage.setItem('token',json.authToken);//Storing the auth token to local storage
+            // const value=localStorage.getItem('token');
+            // console.log("the value of token is",value);
             navigate("/");
             props.showAlert("Successfully Logged In","success")
+            
+            
+
           }
           else{
             props.showAlert("Invalid Details","danger")
@@ -35,7 +40,8 @@ const Login = (props) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })  //jo bhi value is note object k andar h wo rhe par jo properties age likhe ja rhe h wo add ya overwrite kar de
       }
     return (
-        <div>
+        <div className='mt-2'>
+          <h2>Login to Continue to iNotebook</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>

@@ -1,7 +1,8 @@
 import React from 'react'
 import {Link,useLocation} from "react-router-dom";
-
+import {useNavigate} from 'react-router-dom';
 const Navbar = () => {
+  let navigate = useNavigate();
   let location = useLocation();//gives the current location basically the pathname
 
   // React.useEffect(() => {
@@ -9,6 +10,10 @@ const Navbar = () => {
   //   // ga('send', 'pageview');
   //   console.log(location.pathname)
   // }, [location]);
+  const handleLogout=()=>{
+    localStorage.removeItem('token');
+    navigate("/login")
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
@@ -26,10 +31,10 @@ const Navbar = () => {
         </li>
         </ul>
           
-      <form className="d-flex">
+      {!localStorage.getItem('token')?<form className="d-flex">
       <Link type="button" className="btn btn-primary mx-2" to="/login">Log In</Link>
       <Link type="button" className="btn btn-primary mx-2" to="/signup">Sign Up</Link>
-      </form>
+      </form>: <button onClick={handleLogout} className='btn btn-primary'>Log Out</button> }
     </div>
   </div>
 </nav>

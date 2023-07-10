@@ -37,7 +37,8 @@ const Signup = (props) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })  //jo bhi value is note object k andar h wo rhe par jo properties age likhe ja rhe h wo add ya overwrite kar de
       }
   return (
-    <div className='container'>
+    <div className='container mt-2'>
+      <h2>Create an Account to use iNotebook </h2>
       <form onSubmit={handleSubmit}>
   <div className="mb-3">
     <label htmlFor="name" className="form-label">Name</label>
