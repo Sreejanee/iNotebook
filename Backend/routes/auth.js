@@ -61,6 +61,7 @@ router.post('/login', [
 
 ], async (req, res) => {
 
+  let success=false
   //if there are errors return bad request and errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -71,13 +72,15 @@ router.post('/login', [
   try {
     let user=await User.findOne({email})//checking whether the user exits with the email enterred by the client
     if(!user){
-      return res.status(400).json({error:"Please try to login with the correct credentials"})
+      success=false
+      return res.status(400).json({success,error:"Please try to login with the correct credentials"})
     }
     //COMPARE WHETHER RIGHT PASSWORD HAS BEEN ENTERED OR NOT
     const passwordComp=await bcrypt.compare(password,user.password)//comparing the passowrd enterred by the client with the actual user passowrd from the database my matching it with the email
     if(!passwordComp)//if the passwords dont match
     {
-      return res.status(400).json({error:"Please try to login with the correct credentials"})
+      success=false
+      return res.status(400).json({success,error:"Please try to login with the correct credentials"})
     }
     else{
       //send the payload data
@@ -87,7 +90,8 @@ router.post('/login', [
         }
       }
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success=true
+      res.json({ success,authToken });
     }
   } catch (error) {
     console.error(error.message);
